@@ -1,0 +1,20 @@
+.content{
+    height: 100vh;
+    background: url(../../assets/star-bg.svg);
+    background-color: rgb(100, 100, 100);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login{
+    width: 95%;
+    max-width: 800px;
+    text-align: center;
+}
+.nes-btn{
+    margin: 10px!important;
+}
+.h3title{
+    color: #fff;
+    background-color: rgb(100, 100, 100)!important;
+}
