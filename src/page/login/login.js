@@ -13,6 +13,7 @@ export default function Login() {
   const [name, setName] = useState(''); //Github用户名
   const [btn_name,setBtnName] = useState('Start'); //按钮文字
   const [btn_class,setBtnClass] = useState('nes-btn is-success'); //按钮样式
+  
   const history = useHistory(); //路由
 
   //点击按钮
@@ -20,7 +21,11 @@ export default function Login() {
     setBtn(loading,loadingStyle);
     //向github api请求，若无用户会返回404，若存在会返回用户信息
     api.getInfo(name).then(res=>{
-      console.log(res);
+      if(res.data.msg === '请求超时或服务器异常'){
+        alert(res.data.msg)
+        setBtn(start,startStyle);
+        return;
+      }
       if(res.status === 404){
         alert('Error! The user could not be found')
         setBtn(start,startStyle);
@@ -46,7 +51,7 @@ export default function Login() {
   });
 
   return (
-    <div className="content">
+    <div className="contentLogin">
       <animated.div  className="nes-container with-title login" style={animation}>
         <h3 className='title h3title'>Github Summary</h3>
         <i className="nes-octocat animate"></i>

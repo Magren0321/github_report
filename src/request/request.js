@@ -1,7 +1,8 @@
 import axios from './index';
 
 const githubApi = 'https://api.github.com';
-const myApi = 'http://119.23.216.219:4000';
+// const myApi = 'http://localhost:4000';
+ const myApi = 'http://119.23.216.219:4000';
 
 const request = {
     /**
@@ -33,7 +34,19 @@ const request = {
      */
     getRep(name){
         return axios({
-            url:githubApi+'/users/'+name+'/subscriptions',
+            url:githubApi+'/users/'+name+'/repos',
+            method:'get'
+        })
+    },
+    /**
+     * 获取用户指定仓库下的contributions数
+     * @param {string} userName 
+     * @param {string} repName 
+     * @returns 
+     */
+    getRepContributions(userName,repName){
+        return axios({
+            url:githubApi+'/repos/'+userName+'/'+repName+'/contributors',
             method:'get'
         })
     }
