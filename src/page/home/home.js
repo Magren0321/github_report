@@ -46,6 +46,21 @@ export default function Home() {
      return repInfoList;
   }
 
+  //当数据请求到后隐藏进度条，显示内容
+  const ShowDiv = () => {
+    if(isShow){
+      return (
+        <div className='content'>xxxx</div>
+      )
+    }else{
+      return (
+        <div className='progress'>
+          <progress className="nes-progress" value={progress_val} max="100"></progress>
+        </div>
+      );
+    }
+  }
+
   useEffect(() => {
     increaseProgress(1,30);
     api.getRep(params.name).then(res=>{
@@ -77,9 +92,7 @@ export default function Home() {
 
   return (
     <div className="contentHome">
-      <div className='progress'>
-        <progress className="nes-progress" value={progress_val} max="100"></progress>
-      </div>
+      <ShowDiv />
     </div>
   );
 }
