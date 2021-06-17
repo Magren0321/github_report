@@ -1,8 +1,8 @@
 import axios from './index';
 
 const githubApi = 'https://api.github.com';
-const myApi = 'http://localhost:4000';
-// const myApi = 'http://119.23.216.219:4000';
+// const myApi = 'http://localhost:4000';
+const myApi = 'http://119.23.216.219:4000';
 
 const request = {
     /**

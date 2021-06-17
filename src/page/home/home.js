@@ -68,12 +68,19 @@ export default function Home() {
         alert(res.data.msg)
         history.replace('/');
       }else{
-        getRepInfo(params.name,JSON.parse(res.data)).then(res=>{
+        //清除掉fork的项目
+        let replist = JSON.parse(res.data);
+        replist.forEach((item,index)=>{
+          if(item.fork === true){
+            replist.splice(index,1);
+          }
+        })
+        //获取每个项目的信息
+        getRepInfo(params.name,replist).then(res=>{
           setAvatar(res[0].avatarUrl);
           setRepInfo(l => l.concat(res))
           increaseProgress(30,80);
           api.getContributions(params.name).then(res=>{
-            console.log(res);
             if(res.data.msg === '请求超时或服务器异常'){
               alert(res.data.msg)
               history.replace('/');
