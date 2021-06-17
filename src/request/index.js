@@ -45,6 +45,14 @@ const showStatus = (status) => {
 const service = axios.create({
   withCredentials: false,
   timeout: 30000, //超时时间
+  headers: {
+    get: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+    },
+    post: {
+      'Content-Type': 'application/json;charset=utf-8'
+    }
+  },
   transformRequest: [(data) => {
     data = JSON.stringify(data)
     return data
