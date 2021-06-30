@@ -2,15 +2,16 @@ import './home.css';
 import { useParams , useHistory } from 'react-router-dom';
 import { useEffect , useState } from 'react';
 import api from '../../request/request';
+import First from './component/first/first';
 
 export default function Home() {
   
   const [progress_val, setProgressVal] = useState(0);
-  const [followers,setFollowers] = useState('');
-  const [dateInfo,setDateInfo] = useState([]);
-  const [repInfo,setRepInfo] = useState([]);
-  const [avatar,setAvatar] = useState('');
-  const [isShow,setShow] = useState(false);
+  const [followers,setFollowers] = useState(''); //followers数
+  const [dateInfo,setDateInfo] = useState([]); //commit数
+  const [repInfo,setRepInfo] = useState([]); //项目信息
+  const [avatar,setAvatar] = useState('');  //头像
+  const [isShow,setShow] = useState(false); //进度条结束，展示页面
 
   const params = useParams();
   const history = useHistory();
@@ -50,7 +51,7 @@ export default function Home() {
   const ShowDiv = () => {
     if(isShow){
       return (
-        <div className='content'>xxxx</div>
+        <First avatar={avatar} />
       )
     }else{
       return (
@@ -64,7 +65,7 @@ export default function Home() {
   useEffect(() => {
     increaseProgress(1,30);
     api.getRep(params.name).then(res=>{
-      if(res.data.msg === '请求超时或服务器异常'){
+      if(res.data.msg === '请求超时或服务器异常' || res.status === 404){
         alert(res.data.msg)
         history.replace('/');
       }else{
@@ -88,7 +89,9 @@ export default function Home() {
               setDateInfo( d => d.concat(res.data.dateList));
               setFollowers(res.data.followers);
               increaseProgress(80,100);
-              setShow(true)
+              setTimeout(()=>{
+                setShow(true)
+              },1500)
             }
           })
         });
