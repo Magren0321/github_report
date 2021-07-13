@@ -16,5 +16,6 @@
 }
 .h3title{
     color: #fff;
+    height: auto!important;
     background-color: rgb(100, 100, 100)!important;
 }

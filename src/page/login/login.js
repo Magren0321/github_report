@@ -1,6 +1,7 @@
 import { useState  } from 'react'
 import {useHistory} from 'react-router-dom'
-import { useSpring, animated } from 'react-spring'
+import { animated } from 'react-spring'
+import animation from '../../animation/index'
 import './login.css';
 import api from '../../request/request';
 
@@ -44,15 +45,11 @@ export default function Login() {
     setName(e.target.value);
   }
   //设置动画，从透明到显示，执行时间2.5s
-  const animation = useSpring({
-    from: { opacity: 0 }, 
-    to: { opacity: 1 },
-    config: { duration: 2500 }
-  });
+  const gradient = animation.Gradient(0,1,{duration:2500});
 
   return (
     <div className="contentLogin">
-      <animated.div  className="nes-container with-title login" style={animation}>
+      <animated.div  className="nes-container with-title login" style={gradient}>
         <h3 className='title h3title'>Github Summary</h3>
         <i className="nes-octocat animate"></i>
         <input type="text" id="name_field" className="nes-input" placeholder="Username" value={ name } onChange={ handleChange }/>

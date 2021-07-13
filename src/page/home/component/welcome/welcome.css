@@ -1,0 +1,46 @@
+.welcome-head{
+    display: flex;
+    padding: 10px;
+}
+.welcome-title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+    font-size: 1.8vw;
+}
+.avatar{
+    border-radius: 50%;
+    width: 10vw;
+    height: 10vw;
+}
+.github-logo{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 35vw;
+    min-width: 200px;
+}
+.welcome-message{
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    transform: translate(0%,-50%); 
+    -webkit-transform: translate(0%,-50%);
+    font-size: 1.8vw;
+}
+.content-welcome{
+    height: 100vh;
+    position: relative;
+}
+@media (max-width: 1000px){
+    .avatar{
+        display: none;
+    }
+    .welcome-message{
+        font-size: 1rem;
+    }
+    .welcome-title{
+        font-size: 1rem;
+    }
+}

@@ -1,7 +1,13 @@
-.contentHome{
+.content-home{
     height: 100vh;
+    overflow: hidden;
     background: url(../../assets/star-bg.svg);
-    background-color: rgb(100, 100, 100);
+    background-color: rgb(100, 100, 100);  
+    scrollbar-width: none; /* firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+}
+.content-div{
+    transition: margin-top 1s;
 }
 .progress{
     width: 85%;
@@ -10,4 +16,7 @@
     left: 50%;
     transform: translate(-50%,-50%);
     max-width: 800px;
+}
+::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
 }

@@ -1,8 +1,9 @@
 import './home.css';
 import { useParams , useHistory } from 'react-router-dom';
-import { useEffect , useState } from 'react';
+import { useEffect , useState ,useRef } from 'react';
 import api from '../../request/request';
-import First from './component/first/first';
+import Welcome from './component/welcome/welcome';
+import Second from "./component/second/second";
 
 export default function Home() {
   
@@ -12,9 +13,12 @@ export default function Home() {
   const [repInfo,setRepInfo] = useState([]); //项目信息
   const [avatar,setAvatar] = useState('');  //头像
   const [isShow,setShow] = useState(false); //进度条结束，展示页面
+  const contentDiv = useRef(null);
 
   const params = useParams();
   const history = useHistory();
+
+  let i = 0; //记录当前显示第几个组件
 
   //进度条增加
   const increaseProgress = (start,end) => {
@@ -47,25 +51,36 @@ export default function Home() {
      return repInfoList;
   }
 
-  //当数据请求到后隐藏进度条，显示内容
-  const ShowDiv = () => {
-    if(isShow){
-      return (
-        <First avatar={avatar} />
-      )
-    }else{
-      return (
-        <div className='progress'>
-          <progress className="nes-progress" value={progress_val} max="100"></progress>
-        </div>
-      );
+  //鼠标滚动
+  const scrollFun = (event) => {
+    const delta = event.detail || (-event.wheelDelta);
+    if (delta > 0 ) {
+      if(i<4){
+        i = i + 1;
+      }
+    }else if (delta < 0) {
+      if(i!== 0){
+        i = i - 1;
+      }
+    }
+    contentDiv.current.style.marginTop = -i*100+'vh';
+  }
+
+  //节流，防止高频率滚动鼠标或滑动屏幕
+  const throttle = (event, time)=>{
+    let pre = 0;
+    return function (...args) {
+      if (Date.now() - pre > time) {
+        pre = Date.now();
+        event.apply(this, args);
+      }
     }
   }
 
   useEffect(() => {
     increaseProgress(1,30);
     api.getRep(params.name).then(res=>{
-      if(res.data.msg === '请求超时或服务器异常' || res.status === 404){
+      if(res.data.msg === '请求超时或服务器异常' || res.status !== 200){
         alert(res.data.msg)
         history.replace('/');
       }else{
@@ -89,6 +104,13 @@ export default function Home() {
               setDateInfo( d => d.concat(res.data.dateList));
               setFollowers(res.data.followers);
               increaseProgress(80,100);
+
+              if ((navigator.userAgent.toLowerCase().indexOf("firefox") !== -1)) {
+                window.addEventListener("DOMMouseScroll", throttle(scrollFun,1000), false)
+              } else if (window.addEventListener) {
+                window.addEventListener("mousewheel", throttle(scrollFun,1000), false)
+              } 
+
               setTimeout(()=>{
                 setShow(true)
               },1500)
@@ -97,11 +119,31 @@ export default function Home() {
         });
       }
     })
-    return () => {};
+    return () => {
+
+    };
   }, [params,history])
 
+  //当数据请求到后隐藏进度条，显示内容
+  const ShowDiv = () => {
+    if(isShow){
+      return (
+        <div ref={contentDiv} className="content-div">
+          <Welcome avatar={avatar} ></Welcome>
+          <Second ></Second>
+        </div>
+      )
+    }else{
+      return (
+        <div className='progress'>
+          <progress className="nes-progress" value={progress_val} max="100"></progress>
+        </div>
+      );
+    }
+  }
+
   return (
-    <div className="contentHome">
+    <div className="content-home">
       <ShowDiv />
     </div>
   );
