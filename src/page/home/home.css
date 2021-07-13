@@ -9,6 +9,9 @@
 .content-div{
     transition: margin-top 1s;
 }
+.content-div >div{
+    height: 100vh;
+}
 .progress{
     width: 85%;
     position: fixed;

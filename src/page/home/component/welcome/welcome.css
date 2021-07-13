@@ -30,7 +30,6 @@
     font-size: 1.8vw;
 }
 .content-welcome{
-    height: 100vh;
     position: relative;
 }
 @media (max-width: 1000px){

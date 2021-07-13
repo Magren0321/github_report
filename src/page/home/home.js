@@ -2,8 +2,9 @@ import './home.css';
 import { useParams , useHistory } from 'react-router-dom';
 import { useEffect , useState ,useRef } from 'react';
 import api from '../../request/request';
-import Welcome from './component/welcome/welcome';
+import Welcome from "./component/welcome/welcome";
 import Second from "./component/second/second";
+
 
 export default function Home() {
   
@@ -17,8 +18,6 @@ export default function Home() {
 
   const params = useParams();
   const history = useHistory();
-
-  let i = 0; //记录当前显示第几个组件
 
   //进度条增加
   const increaseProgress = (start,end) => {
@@ -51,20 +50,6 @@ export default function Home() {
      return repInfoList;
   }
 
-  //鼠标滚动
-  const scrollFun = (event) => {
-    const delta = event.detail || (-event.wheelDelta);
-    if (delta > 0 ) {
-      if(i<4){
-        i = i + 1;
-      }
-    }else if (delta < 0) {
-      if(i!== 0){
-        i = i - 1;
-      }
-    }
-    contentDiv.current.style.marginTop = -i*100+'vh';
-  }
 
   //节流，防止高频率滚动鼠标或滑动屏幕
   const throttle = (event, time)=>{
@@ -78,7 +63,9 @@ export default function Home() {
   }
 
   useEffect(() => {
+    let i = 0; //记录当前显示第几个组件
     increaseProgress(1,30);
+    //获取项目列表
     api.getRep(params.name).then(res=>{
       if(res.data.msg === '请求超时或服务器异常' || res.status !== 200){
         alert(res.data.msg)
@@ -96,6 +83,7 @@ export default function Home() {
           setAvatar(res[0].avatarUrl);
           setRepInfo(l => l.concat(res))
           increaseProgress(30,80);
+          //获取每天的contribution数以及follower数
           api.getContributions(params.name).then(res=>{
             if(res.data.msg === '请求超时或服务器异常'){
               alert(res.data.msg)
@@ -104,15 +92,30 @@ export default function Home() {
               setDateInfo( d => d.concat(res.data.dateList));
               setFollowers(res.data.followers);
               increaseProgress(80,100);
-
-              if ((navigator.userAgent.toLowerCase().indexOf("firefox") !== -1)) {
-                window.addEventListener("DOMMouseScroll", throttle(scrollFun,1000), false)
-              } else if (window.addEventListener) {
-                window.addEventListener("mousewheel", throttle(scrollFun,1000), false)
-              } 
+              
+              //鼠标滚动
+              const scrollFun = (event) => {
+                const delta = event.detail || (-event.wheelDelta);
+                if (delta > 0 ) {
+                  if(i<4){
+                    i = i + 1;
+                  }
+                }else if (delta < 0) {
+                  if(i!== 0){
+                    i = i - 1;
+                  }
+                }
+                contentDiv.current.style.marginTop = -i*100+'vh';
+              }
 
               setTimeout(()=>{
-                setShow(true)
+                setShow(true);
+                //根据浏览器判断用哪种监听
+                if ((navigator.userAgent.toLowerCase().indexOf("firefox") !== -1)) {
+                  window.addEventListener("DOMMouseScroll", throttle(scrollFun,1000), false)
+                } else if (window.addEventListener) {
+                  window.addEventListener("mousewheel", throttle(scrollFun,1000), false)
+                } 
               },1500)
             }
           })
@@ -130,7 +133,7 @@ export default function Home() {
       return (
         <div ref={contentDiv} className="content-div">
           <Welcome avatar={avatar} ></Welcome>
-          <Second ></Second>
+          <Second></Second>
         </div>
       )
     }else{
