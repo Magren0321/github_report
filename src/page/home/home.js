@@ -1,10 +1,9 @@
 import './home.css';
 import { useParams , useHistory } from 'react-router-dom';
-import { useEffect , useState ,useRef } from 'react';
+import { useEffect , useState , useRef} from 'react';
 import api from '../../request/request';
 import Welcome from "./component/welcome/welcome";
-import Second from "./component/second/second";
-
+import Second from './component/second/second';
 
 export default function Home() {
   
@@ -50,7 +49,6 @@ export default function Home() {
      return repInfoList;
   }
 
-
   //节流，防止高频率滚动鼠标或滑动屏幕
   const throttle = (event, time)=>{
     let pre = 0;
@@ -63,7 +61,7 @@ export default function Home() {
   }
 
   useEffect(() => {
-    let i = 0; //记录当前显示第几个组件
+    let i = 0;
     increaseProgress(1,30);
     //获取项目列表
     api.getRep(params.name).then(res=>{
@@ -80,11 +78,13 @@ export default function Home() {
         })
         //获取每个项目的信息
         getRepInfo(params.name,replist).then(res=>{
+          console.log(res);
           setAvatar(res[0].avatarUrl);
           setRepInfo(l => l.concat(res))
           increaseProgress(30,80);
           //获取每天的contribution数以及follower数
           api.getContributions(params.name).then(res=>{
+            console.log(res);
             if(res.data.msg === '请求超时或服务器异常'){
               alert(res.data.msg)
               history.replace('/');
@@ -100,12 +100,12 @@ export default function Home() {
                   if(i<4){
                     i = i + 1;
                   }
-                }else if (delta < 0) {
-                  if(i!== 0){
+                }else if(delta < 0){
+                  if(i!==0){
                     i = i - 1;
                   }
                 }
-                contentDiv.current.style.marginTop = -i*100+'vh';
+                contentDiv.current.style.marginTop = -i*100+'vh'; //设置窗口位置
               }
 
               setTimeout(()=>{
@@ -131,8 +131,8 @@ export default function Home() {
   const ShowDiv = () => {
     if(isShow){
       return (
-        <div ref={contentDiv} className="content-div">
-          <Welcome avatar={avatar} ></Welcome>
+        <div className="content-div" ref={contentDiv}>
+          <Welcome avatar={avatar}></Welcome>
           <Second></Second>
         </div>
       )

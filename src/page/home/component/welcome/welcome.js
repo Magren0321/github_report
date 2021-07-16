@@ -8,11 +8,12 @@ export default function Welcome(props){
     const params = useParams();
     const {avatar} = props;
 
+    //动画style
     const translationGithub = animation.Translation({x:500},{x:0},{duration:300});
     const translationTitle = animation.Translation({y:-200},{y:0},{duration:500});
-    const translationAvatar = animation.Translation({x:-200},{x:0},{duration:500});
+    const translationAvatar = animation.Translation({x:-200},{x:0},{duration:700});
     const gradient = animation.Gradient(0,1,{duration:2000});
-
+    const loopTranslation = animation.LoopTranslation({y:-10},{y:0});
 
     return (
         <div className="content-welcome">
@@ -28,6 +29,7 @@ export default function Welcome(props){
                 <p>Slide down to see more</p>
             </animated.div>
             <animated.img src={githubLogo} className="github-logo" style={translationGithub}/>
+            <animated.p className="next" style={loopTranslation}>↓</animated.p>
         </div>
     );
 }

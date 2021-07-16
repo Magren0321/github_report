@@ -32,6 +32,13 @@
 .content-welcome{
     position: relative;
 }
+.next{
+    font-size: 1.5vw;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translate(-50%,0);
+}
 @media (max-width: 1000px){
     .avatar{
         display: none;
@@ -41,5 +48,12 @@
     }
     .welcome-title{
         font-size: 1rem;
+    }
+    .next{
+        font-size: 1.5rem;
+        position: absolute;
+        bottom: 10px;
+        left: 30%;
+        transform: translate(-50%,0);
     }
 }

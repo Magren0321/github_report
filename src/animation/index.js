@@ -18,6 +18,15 @@ const animation = {
             config:config
         });
         return translation;
+    },
+    //循环平移
+    LoopTranslation(from,to){
+        const loopTranslation = useSpring({
+            from:from,
+            to:to,
+            loop:{ reverse: true }
+        })
+        return loopTranslation;
     }
 }
 
