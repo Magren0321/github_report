@@ -11,14 +11,13 @@ export default function Welcome(props){
     //动画style
     const translationGithub = animation.Translation({x:500},{x:0},{duration:300});
     const translationTitle = animation.Translation({y:-200},{y:0},{duration:500});
-    const translationAvatar = animation.Translation({x:-200},{x:0},{duration:700});
     const gradient = animation.Gradient(0,1,{duration:2000});
-    const loopTranslation = animation.LoopTranslation({y:-10},{y:0});
+    const loopTranslation = animation.LoopTranslation({y:-30},{y:0});
 
     return (
         <div className="content-welcome">
             <div className='welcome-head'>
-                <animated.img className='avatar' src={avatar} style={translationAvatar}/>
+                <animated.img className='avatar' src={avatar} />
                 <animated.div className='welcome-title' style={translationTitle}>
                     <p>{params.name}</p>    
                     <p>Welcome to check your Github report!</p>

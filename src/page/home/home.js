@@ -1,9 +1,12 @@
 import './home.css';
 import { useParams , useHistory } from 'react-router-dom';
-import { useEffect , useState , useRef} from 'react';
+import { useEffect , useState } from 'react';
 import api from '../../request/request';
 import Welcome from "./component/welcome/welcome";
-import Second from './component/second/second';
+import RepInfo from './component/repInfo/repInfo';
+import { Parallax, ParallaxLayer } from '@react-spring/parallax'
+import satellite4 from '../../assets/img/satellite4.svg';
+import cloud from '../../assets/img/cloud.svg';
 
 export default function Home() {
   
@@ -13,7 +16,6 @@ export default function Home() {
   const [repInfo,setRepInfo] = useState([]); //项目信息
   const [avatar,setAvatar] = useState('');  //头像
   const [isShow,setShow] = useState(false); //进度条结束，展示页面
-  const contentDiv = useRef(null);
 
   const params = useParams();
   const history = useHistory();
@@ -49,19 +51,7 @@ export default function Home() {
      return repInfoList;
   }
 
-  //节流，防止高频率滚动鼠标或滑动屏幕
-  const throttle = (event, time)=>{
-    let pre = 0;
-    return function (...args) {
-      if (Date.now() - pre > time) {
-        pre = Date.now();
-        event.apply(this, args);
-      }
-    }
-  }
-
   useEffect(() => {
-    let i = 0;
     increaseProgress(1,30);
     //获取项目列表
     api.getRep(params.name).then(res=>{
@@ -93,29 +83,8 @@ export default function Home() {
               setFollowers(res.data.followers);
               increaseProgress(80,100);
               
-              //鼠标滚动
-              const scrollFun = (event) => {
-                const delta = event.detail || (-event.wheelDelta);
-                if (delta > 0 ) {
-                  if(i<4){
-                    i = i + 1;
-                  }
-                }else if(delta < 0){
-                  if(i!==0){
-                    i = i - 1;
-                  }
-                }
-                contentDiv.current.style.marginTop = -i*100+'vh'; //设置窗口位置
-              }
-
               setTimeout(()=>{
                 setShow(true);
-                //根据浏览器判断用哪种监听
-                if ((navigator.userAgent.toLowerCase().indexOf("firefox") !== -1)) {
-                  window.addEventListener("DOMMouseScroll", throttle(scrollFun,1000), false)
-                } else if (window.addEventListener) {
-                  window.addEventListener("mousewheel", throttle(scrollFun,1000), false)
-                } 
               },1500)
             }
           })
@@ -131,10 +100,41 @@ export default function Home() {
   const ShowDiv = () => {
     if(isShow){
       return (
-        <div className="content-div" ref={contentDiv}>
-          <Welcome avatar={avatar}></Welcome>
-          <Second></Second>
-        </div>
+          <Parallax pages={2}>
+
+          <ParallaxLayer
+            offset={0}
+            speed={3}>
+            <Welcome avatar={avatar}></Welcome>
+          </ParallaxLayer>
+
+          <ParallaxLayer offset={1.3} speed={-0.3} style={{ pointerEvents: 'none' }}>
+            <img src={satellite4} className="satellite4" alt="satellite"/>
+          </ParallaxLayer>
+
+          <ParallaxLayer offset={1} speed={0.8} style={{ opacity: 0.1 }}>
+            <img src={cloud} style={{ display: 'block', width: '20%', marginLeft: '55%' }} alt="cloud"/>
+            <img src={cloud} style={{ display: 'block', width: '10%', marginLeft: '15%' }} alt="cloud"/>
+          </ParallaxLayer>
+
+          <ParallaxLayer offset={1.75} speed={0.5} style={{ opacity: 0.1 }}>
+            <img src={cloud} style={{ display: 'block', width: '20%', marginLeft: '70%' }} alt="cloud"/>
+            <img src={cloud} style={{ display: 'block', width: '20%', marginLeft: '40%' }} alt="cloud"/>
+          </ParallaxLayer>
+
+          <ParallaxLayer offset={1} speed={0.2} style={{ opacity: 0.2 }}>
+            <img src={cloud} style={{ display: 'block', width: '10%', marginLeft: '10%' }} alt="cloud"/>
+            <img src={cloud} style={{ display: 'block', width: '20%', marginLeft: '75%' }} alt="cloud"/>
+          </ParallaxLayer>
+            
+
+          <ParallaxLayer 
+            offset={1} 
+            speed={2}>
+            <RepInfo repInfo={repInfo}></RepInfo>
+          </ParallaxLayer>
+
+        </Parallax>
       )
     }else{
       return (
