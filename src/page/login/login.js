@@ -22,14 +22,10 @@ export default function Login() {
     setBtn(loading,loadingStyle);
     //向github api请求，若无用户会返回404，若存在会返回用户信息
     api.getInfo(name).then(res=>{
-      if(res.data.msg === '请求超时或服务器异常'){
-        alert(res.data.msg)
+      if(res.data.status !== 200){
+        alert(res.data.msg || res.data.message);
         setBtn(start,startStyle);
         return;
-      }
-      if(res.status === 404){
-        alert('Error! The user could not be found')
-        setBtn(start,startStyle);
       }else{
         history.push('/user/'+name);
       }

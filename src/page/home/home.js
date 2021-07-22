@@ -9,6 +9,9 @@ import satellite4 from '../../assets/img/satellite4.svg';
 import cloud from '../../assets/img/cloud.svg';
 
 export default function Home() {
+
+  const params = useParams();
+  const history = useHistory();
   
   const [progress_val, setProgressVal] = useState(0);
   const [followers,setFollowers] = useState(''); //followers数
@@ -17,24 +20,9 @@ export default function Home() {
   const [avatar,setAvatar] = useState('');  //头像
   const [isShow,setShow] = useState(false); //进度条结束，展示页面
 
-  const params = useParams();
-  const history = useHistory();
+  
 
-  //进度条增加
-  const increaseProgress = (start,end) => {
-    let i = start;
-    let l = end;
-    const interval = setInterval(()=>{
-      if(i === l){
-        clearInterval(interval);
-      }else{
-        i++;
-        setProgressVal(p=>p+1);
-      }
-    },30)
-  }
-
-  //将获取到的项目信息进行解析，获取项目名，url，star数，commit数,顺便获取用户头像
+  //将获取到的项目信息进行解析，获取项目名，url，star数，commit数
   const getRepInfo = async (userName,repList)=>{
     const repInfoList = [];
     for(let item of repList){
@@ -42,9 +30,12 @@ export default function Home() {
       data.name = item.name;
       data.url = item.html_url;
       data.stargazers_count = item.stargazers_count;
-      await api.getRepContributions(userName,item.name).then( res =>{
-        data.avatarUrl = JSON.parse(res.data)[0].avatar_url;
-        data.contributions = JSON.parse(res.data)[0].contributions;
+      await api.getRepContributions(userName,item.name).then(res =>{
+        if(res.data.status !== 200){
+          alert(res.data.msg || res.data.message)
+          history.replace('/');
+        }
+        data.contributions = res.data.data.contributions;
       })
       repInfoList.push(data);
     }
@@ -52,49 +43,56 @@ export default function Home() {
   }
 
   useEffect(() => {
-    increaseProgress(1,30);
+    let interval;
+    //进度条增加方法
+    const increaseProgress = (start,end) => {
+      let i = start;
+      let l = end;
+      interval = setInterval(()=>{
+        if(i === l){
+          if(i===100){
+            setShow(true);
+          }
+          clearInterval(interval);
+        }else{
+          i++;
+          setProgressVal(p=>p+1);
+        }
+      },30)
+    }
+    increaseProgress(0,30);
     //获取项目列表
     api.getRep(params.name).then(res=>{
-      if(res.data.msg === '请求超时或服务器异常' || res.status !== 200){
-        alert(res.data.msg)
+      // 请求出现问题返回上一页
+      if(res.data.status !== 200){
+        alert(res.data.msg || res.data.message)
         history.replace('/');
-      }else{
-        //清除掉fork的项目
-        let replist = JSON.parse(res.data);
-        replist.forEach((item,index)=>{
-          if(item.fork === true){
-            replist.splice(index,1);
-          }
-        })
-        //获取每个项目的信息
-        getRepInfo(params.name,replist).then(res=>{
-          console.log(res);
-          setAvatar(res[0].avatarUrl);
-          setRepInfo(l => l.concat(res))
-          increaseProgress(30,80);
-          //获取每天的contribution数以及follower数
-          api.getContributions(params.name).then(res=>{
-            console.log(res);
-            if(res.data.msg === '请求超时或服务器异常'){
-              alert(res.data.msg)
-              history.replace('/');
-            }else{
-              setDateInfo( d => d.concat(res.data.dateList));
-              setFollowers(res.data.followers);
-              increaseProgress(80,100);
-              
-              setTimeout(()=>{
-                setShow(true);
-              },1500)
-            }
-          })
-        });
       }
+      //获取到的个人仓库列表
+      let replist = res.data.data;
+      //获取每个项目的信息（项目名，url，star数，commit数）
+      getRepInfo(params.name,replist).then(res=>{
+        setRepInfo(l => l.concat(res))
+        increaseProgress(30,70)
+        //获取个人信息（设置头像，followers数）
+        api.getInfo(params.name).then(res=>{
+          setAvatar(res.data.data.avatar_url)
+          //获取每天的contribution数
+          api.getContributions(params.name).then(res=>{
+            if(res.data.status !== 200){
+              alert(res.data.msg || res.data.message)
+              history.replace('/');
+            }
+            setDateInfo( d => d.concat(res.data.data.dateList));
+            increaseProgress(70,100);
+          })
+        })
+      });
     })
     return () => {
-
+      clearInterval(interval);
     };
-  }, [params,history])
+  }, [history,params])
 
   //当数据请求到后隐藏进度条，显示内容
   const ShowDiv = () => {
@@ -108,7 +106,7 @@ export default function Home() {
             <Welcome avatar={avatar}></Welcome>
           </ParallaxLayer>
 
-          <ParallaxLayer offset={1.3} speed={-0.3} style={{ pointerEvents: 'none' }}>
+          <ParallaxLayer offset={1.3} speed={-0.3} >
             <img src={satellite4} className="satellite4" alt="satellite"/>
           </ParallaxLayer>
 

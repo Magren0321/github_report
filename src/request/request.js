@@ -1,18 +1,14 @@
 import axios from './index';
 
-const githubApi = 'https://api.github.com';
-const myApi = 'http://localhost:4000';
-// const myApi = 'http://119.23.216.219:4000';
-
 const request = {
     /**
-     * 获取github用户的Contributions
+     * 获取github用户的所有Contributions以及日期
      * @param {string} name 
      * @returns 
      */
     getContributions(name){
         return axios({
-            url:myApi+'/getgithub?name='+name,
+            url:'/getAllContributions/'+name,
             method:'get'
         })
     },
@@ -23,7 +19,7 @@ const request = {
      */
     getInfo(name){
         return axios({
-            url:githubApi+'/users/'+name,
+            url:'/getInfo/'+name,
             method:'get'
         })
     },
@@ -34,7 +30,7 @@ const request = {
      */
     getRep(name){
         return axios({
-            url:githubApi+'/users/'+name+'/repos',
+            url:'/getRep/'+name,
             method:'get'
         })
     },
@@ -46,7 +42,7 @@ const request = {
      */
     getRepContributions(userName,repName){
         return axios({
-            url:githubApi+'/repos/'+userName+'/'+repName+'/contributors',
+            url:'/getRepContributions/'+userName+'/'+repName,
             method:'get'
         })
     }
