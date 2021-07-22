@@ -29,18 +29,19 @@ export default function RepInfo(props){
             return(
                 <div className="content-repInfo">
                     <div className="repInfo-head">
-                        <i class="nes-octocat animate"></i>
-                        <div className="nes-balloon from-left">
+                        <i className="nes-octocat animate rep-octocat"></i>
+                        <div className="nes-balloon from-left rep-balloon">
                             <p>Up to now, you have {repQuantity} public repositories !</p>
                         </div>
                     </div>
 
                     <div className='rep-list'>
                         <ul className="nes-list is-circle">
-                            <li>Good morning.</li>
-                            <li>Thou hast had a good night's sleep, I hope.</li>
-                            <li>Thou hast had a good afternoon</li>
-                            <li>Good night.</li>
+                            {repInfo.map(item=>{
+                                return (
+                                    <li key="{item.name}">{item.name}</li>
+                                )
+                            })}
                         </ul>
                     </div>
                 </div>

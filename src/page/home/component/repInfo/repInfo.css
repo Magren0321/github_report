@@ -7,15 +7,15 @@
     align-items: center;
     padding: 20px;
 }
-.nes-octocat{
+.rep-octocat{
     position: absolute!important;
     bottom: 0;
     margin-right: 10px;
 }
-.nes-balloon{
+.rep-balloon{
     flex: 1;
     max-width: 620px;
-    margin: 8px 8px 8px 95px;
+    margin: 8px 8px 8px 95px !important;
     font-size: 0.8rem;
 }
 @media (max-width: 1000px){
