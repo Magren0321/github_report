@@ -1,3 +1,25 @@
-.constent-repInfo{
+.content-repInfo{
     height: 100vh;
+}
+.repInfo-head{
+    display: flex;
+    position: relative;
+    align-items: center;
+    padding: 20px;
+}
+.nes-octocat{
+    position: absolute!important;
+    bottom: 0;
+    margin-right: 10px;
+}
+.nes-balloon{
+    flex: 1;
+    max-width: 620px;
+    margin: 8px 8px 8px 95px;
+    font-size: 0.8rem;
+}
+@media (max-width: 1000px){
+    .repInfo-head{
+        padding: 0;
+    }
 }

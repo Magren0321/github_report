@@ -20,28 +20,6 @@ export default function Home() {
   const [avatar,setAvatar] = useState('');  //头像
   const [isShow,setShow] = useState(false); //进度条结束，展示页面
 
-  
-
-  //将获取到的项目信息进行解析，获取项目名，url，star数，commit数
-  const getRepInfo = async (userName,repList)=>{
-    const repInfoList = [];
-    for(let item of repList){
-      let data = {};
-      data.name = item.name;
-      data.url = item.html_url;
-      data.stargazers_count = item.stargazers_count;
-      await api.getRepContributions(userName,item.name).then(res =>{
-        if(res.data.status !== 200){
-          alert(res.data.msg || res.data.message)
-          history.replace('/');
-        }
-        data.contributions = res.data.data.contributions;
-      })
-      repInfoList.push(data);
-    }
-     return repInfoList;
-  }
-
   useEffect(() => {
     let interval;
     //进度条增加方法
@@ -60,6 +38,28 @@ export default function Home() {
         }
       },30)
     }
+
+    //将获取到的项目信息进行解析，获取项目名，url，star数，commit数
+    const getRepInfo = async (userName,repList)=>{
+      const repInfoList = [];
+      for(let item of repList){
+        let data = {};
+        data.name = item.name;
+        data.url = item.html_url;
+        data.stargazers_count = item.stargazers_count;
+        await api.getRepContributions(userName,item.name).then(res =>{
+          if(res.data.status !== 200){
+            alert(res.data.msg || res.data.message)
+            history.replace('/');
+            return;
+          }
+          data.contributions = res.data.data.contributions;
+        })
+        repInfoList.push(data);
+      }
+      return repInfoList;
+    }
+
     increaseProgress(0,30);
     //获取项目列表
     api.getRep(params.name).then(res=>{
@@ -67,6 +67,7 @@ export default function Home() {
       if(res.data.status !== 200){
         alert(res.data.msg || res.data.message)
         history.replace('/');
+        return;
       }
       //获取到的个人仓库列表
       let replist = res.data.data;
@@ -82,6 +83,7 @@ export default function Home() {
             if(res.data.status !== 200){
               alert(res.data.msg || res.data.message)
               history.replace('/');
+              return;
             }
             setDateInfo( d => d.concat(res.data.data.dateList));
             increaseProgress(70,100);
