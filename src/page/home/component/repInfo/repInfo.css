@@ -13,13 +13,40 @@
     margin-right: 10px;
 }
 .rep-balloon{
-    flex: 1;
-    max-width: 620px;
+    max-width: 800px;
     margin: 8px 8px 8px 95px !important;
     font-size: 0.8rem;
 }
+.rep-list-content{
+    margin-top: 1.2rem;
+    font-size: 1.2rem;
+    height: 75vh;
+    overflow: hidden;
+}
+.rep-list{
+    transition: margin-top 1s;
+    margin-top: 50px;
+}
+.list-item{
+    padding: 3px;
+    width: 450px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space:nowrap;
+}
+
 @media (max-width: 1000px){
     .repInfo-head{
+        padding: 0;
+    }
+    .rep-list-content{
+        font-size: 1rem;
+    }
+    .rep-balloon{
+        flex: 1;
+    }
+    .list-item{
+        width: 80vw;
         padding: 0;
     }
 }

@@ -1,8 +1,10 @@
 import './repInfo.css';
-import { useEffect , useState } from 'react';
+import { useEffect , useState ,useRef } from 'react';
 
 export default function RepInfo(props){
     const [repQuantity,setQuantity] = useState('');
+    const repUl = useRef(null);
+    const repContent = useRef(null);
 
     const {repInfo} = props;
 
@@ -17,10 +19,22 @@ export default function RepInfo(props){
     }
 
     useEffect(() => {
+        console.log(repUl)
+        console.log(repContent)
+        //设置公开仓库数量
         setRepQuantity();
+        //设置仓库列表循环滚动
+        let interval;
+        let i = 0;
+        interval = setInterval(()=>{
+            if(repUl.current.style.marginTop >= repUl.current.clientHeight - repContent.current.clientHeight){
+                clearInterval(interval)
+            }
+            repUl.current.style.marginTop =  -50 * i + 'px';
+        },100)
         
         return () => {
-
+            clearInterval(interval)
         }
     }, [])
 
@@ -30,16 +44,18 @@ export default function RepInfo(props){
                 <div className="content-repInfo">
                     <div className="repInfo-head">
                         <i className="nes-octocat animate rep-octocat"></i>
-                        <div className="nes-balloon from-left rep-balloon">
+                        <div className="nes-balloon from-left rep-balloon ">
                             <p>Up to now, you have {repQuantity} public repositories !</p>
                         </div>
                     </div>
 
-                    <div className='rep-list'>
-                        <ul className="nes-list is-circle">
-                            {repInfo.map(item=>{
+                    <div className="rep-list-content" ref={repContent}>
+                        <ul className="nes-list is-circle rep-list" ref={repUl}>
+                            {repInfo.map((item,index)=>{
                                 return (
-                                    <li key="{item.name}">{item.name}</li>
+                                    <li key={index}>
+                                        <div className="list-item">{item.name}</div>
+                                    </li>
                                 )
                             })}
                         </ul>

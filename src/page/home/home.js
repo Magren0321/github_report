@@ -49,6 +49,7 @@ export default function Home() {
         data.stargazers_count = item.stargazers_count;
         await api.getRepContributions(userName,item.name).then(res =>{
           if(res.data.status !== 200){
+            console.log('这里出问题了！',res);
             alert(res.data.msg || res.data.message)
             history.replace('/');
             return;
@@ -65,12 +66,14 @@ export default function Home() {
     api.getRep(params.name).then(res=>{
       // 请求出现问题返回上一页
       if(res.data.status !== 200){
+        console.log('这里出问题了！',res);
         alert(res.data.msg || res.data.message)
         history.replace('/');
         return;
       }
       //获取到的个人仓库列表
       let replist = res.data.data;
+      console.log(replist)
       //获取每个项目的信息（项目名，url，star数，commit数）
       getRepInfo(params.name,replist).then(res=>{
         setRepInfo(l => l.concat(res))
@@ -81,11 +84,12 @@ export default function Home() {
           //获取每天的contribution数
           api.getContributions(params.name).then(res=>{
             if(res.data.status !== 200){
+              console.log('这里出问题了！',res);
               alert(res.data.msg || res.data.message)
               history.replace('/');
               return;
             }
-            setDateInfo( d => d.concat(res.data.data.dateList));
+            setDateInfo( d => d.concat(res.data.data.data));
             increaseProgress(70,100);
           })
         })
