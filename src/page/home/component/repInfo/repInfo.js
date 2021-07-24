@@ -19,19 +19,26 @@ export default function RepInfo(props){
     }
 
     useEffect(() => {
-        console.log(repUl)
-        console.log(repContent)
         //设置公开仓库数量
         setRepQuantity();
+        let mostStarRep = repInfo.reduce((a,b)=>{
+            return b.stargazers_count > a.stargazers_count ? b : a;
+        });
+        console.log(mostStarRep)
         //设置仓库列表循环滚动
         let interval;
         let i = 0;
-        interval = setInterval(()=>{
-            if(repUl.current.style.marginTop >= repUl.current.clientHeight - repContent.current.clientHeight){
-                clearInterval(interval)
-            }
-            repUl.current.style.marginTop =  -50 * i + 'px';
-        },100)
+        //假如仓库列表高度大于容器高度，则触发滚动，每0.1s滚动10px
+        if(repContent.current.clientHeight < repUl.current.clientHeight){
+            interval = setInterval(()=>{
+                if(repUl.current.style.marginTop.replace(/[^\d]/g,' ') > repUl.current.clientHeight - repContent.current.clientHeight/3.5){
+                    i = -50;
+                }
+                repUl.current.style.marginTop =  -10 * i + 'px';
+                i++;
+            },100)
+        }
+        
         
         return () => {
             clearInterval(interval)
@@ -42,13 +49,14 @@ export default function RepInfo(props){
         if(repInfo.length!==0){
             return(
                 <div className="content-repInfo">
+                    {/* 头部 */}
                     <div className="repInfo-head">
                         <i className="nes-octocat animate rep-octocat"></i>
                         <div className="nes-balloon from-left rep-balloon ">
                             <p>Up to now, you have {repQuantity} public repositories !</p>
                         </div>
                     </div>
-
+                    {/* 仓库列表 */}
                     <div className="rep-list-content" ref={repContent}>
                         <ul className="nes-list is-circle rep-list" ref={repUl}>
                             {repInfo.map((item,index)=>{
@@ -59,6 +67,13 @@ export default function RepInfo(props){
                                 )
                             })}
                         </ul>
+                    </div>
+                    {/* 仓库starts最多以及contributions最多 */}
+                    <div className="rep-statistics">
+                            <span>The repository you have the most </span> 
+                            <i className="nes-icon is-medium star"></i>
+                            <span> is</span>
+                            
                     </div>
                 </div>
             )
