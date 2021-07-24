@@ -3,6 +3,8 @@ import { useEffect , useState ,useRef } from 'react';
 
 export default function RepInfo(props){
     const [repQuantity,setQuantity] = useState('');
+    const [mostStars,setMostStars] = useState({});
+    const [mostContributions,setMostContributions] = useState({});
     const repUl = useRef(null);
     const repContent = useRef(null);
 
@@ -19,12 +21,20 @@ export default function RepInfo(props){
     }
 
     useEffect(() => {
+        console.log(repInfo)
         //设置公开仓库数量
         setRepQuantity();
+        //设置最多stars的仓库
         let mostStarRep = repInfo.reduce((a,b)=>{
             return b.stargazers_count > a.stargazers_count ? b : a;
         });
-        console.log(mostStarRep)
+        setMostStars(mostStarRep);
+        //设置最多contributions的仓库
+        let mostContributions = repInfo.reduce((a,b)=>{
+            return b.contributions > a.contributions ? b : a;
+        })
+        console.log(mostContributions)
+        setMostContributions(mostContributions);
         //设置仓库列表循环滚动
         let interval;
         let i = 0;
@@ -38,9 +48,8 @@ export default function RepInfo(props){
                 i++;
             },100)
         }
-        
-        
         return () => {
+            //页面卸载时清除Interval
             clearInterval(interval)
         }
     }, [])
@@ -69,11 +78,19 @@ export default function RepInfo(props){
                         </ul>
                     </div>
                     {/* 仓库starts最多以及contributions最多 */}
-                    <div className="rep-statistics">
+                    <div className="rep-statistics nes-container is-rounded is-dark" >
+                        <div className="stars-rep">
                             <span>The repository you have the most </span> 
                             <i className="nes-icon is-medium star"></i>
-                            <span> is</span>
-                            
+                            <span> is {mostStars.name}</span><br/>
+                            <span>It has {mostStars.stargazers_count} stars</span>
+                        </div>
+
+                        <div className="contributions-rep">
+                            <span>The repository you have the most contributions</span> 
+                            <span> is {mostContributions.name}</span><br/>
+                            <span>It has {mostContributions.contributions} contributions</span>
+                        </div>        
                     </div>
                 </div>
             )
