@@ -33,15 +33,18 @@ export default function RepInfo(props){
         let mostContributions = repInfo.reduce((a,b)=>{
             return b.contributions > a.contributions ? b : a;
         })
-        console.log(mostContributions)
         setMostContributions(mostContributions);
         //设置仓库列表循环滚动
         let interval;
         let i = 0;
         //假如仓库列表高度大于容器高度，则触发滚动，每0.1s滚动10px
         if(repContent.current.clientHeight < repUl.current.clientHeight){
+            
+            console.log(repUl.current.clientHeight)
+            console.log(repContent.current.clientHeight)
+
             interval = setInterval(()=>{
-                if(repUl.current.style.marginTop.replace(/[^\d]/g,' ') > repUl.current.clientHeight - repContent.current.clientHeight/3.5){
+                if(repUl.current.style.marginTop.replace(/[^\d]/g,' ') > repUl.current.clientHeight + repContent.current.clientHeight/3){
                     i = -50;
                 }
                 repUl.current.style.marginTop =  -10 * i + 'px';
@@ -82,14 +85,14 @@ export default function RepInfo(props){
                         <div className="stars-rep">
                             <span>The repository you have the most </span> 
                             <i className="nes-icon is-medium star"></i>
-                            <span> is {mostStars.name}</span><br/>
-                            <span>It has {mostStars.stargazers_count} stars</span>
+                            <span> is {mostStars.name},</span><br/>
+                            <span>It has {mostStars.stargazers_count} stars.</span>
                         </div>
 
                         <div className="contributions-rep">
                             <span>The repository you have the most contributions</span> 
-                            <span> is {mostContributions.name}</span><br/>
-                            <span>It has {mostContributions.contributions} contributions</span>
+                            <span> is {mostContributions.name},</span><br/>
+                            <span>It has {mostContributions.contributions} contributions.</span>
                         </div>        
                     </div>
                 </div>

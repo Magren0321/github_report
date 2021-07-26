@@ -15,9 +15,10 @@
     max-width: 800px;
 }
 .satellite4{
+    position: absolute;
     width: 20%;
     max-width: 200px;
-    margin-left: 70%;
+    right: 20%;
 }
 ::-webkit-scrollbar {
     display: none; /* Chrome Safari */

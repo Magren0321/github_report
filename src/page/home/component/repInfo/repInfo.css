@@ -38,8 +38,10 @@
 .rep-statistics{
     position: absolute!important;
     text-align: start!important;
-    left: 25%;
-    top: 55%;
+    left: 500px;
+    right: 5px;
+    bottom: 0;
+    overflow: scroll;
     font-size: 1.3rem;
 }
 .contributions-rep{
@@ -52,6 +54,10 @@
     }
     .rep-list-content{
         font-size: 1rem;
+        height: auto;
+    }
+    .rep-list{
+        margin-top:5px;
     }
     .rep-balloon{
         flex: 1;
@@ -59,5 +65,8 @@
     .list-item{
         width: 80vw;
         padding: 0;
+    }
+    .rep-statistics{
+        display: none;
     }
 }
