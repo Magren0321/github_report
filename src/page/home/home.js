@@ -2,8 +2,9 @@ import './home.css';
 import { useParams , useHistory } from 'react-router-dom';
 import { useEffect , useState } from 'react';
 import api from '../../request/request';
-import Welcome from "./component/welcome/welcome";
-import RepInfo from './component/repInfo/repInfo';
+import Welcome from '../welcome/welcome';
+import RepInfo from '../repInfo/repInfo';
+import Commit  from '../commit/commit';
 import { Parallax, ParallaxLayer } from '@react-spring/parallax'
 import satellite4 from '../../assets/img/satellite4.svg';
 import cloud from '../../assets/img/cloud.svg';
@@ -89,7 +90,7 @@ export default function Home() {
               history.replace('/');
               return;
             }
-            setDateInfo( d => d.concat(res.data.data.data));
+            setDateInfo( d => d.concat(res.data.data));
             increaseProgress(70,100);
           })
         })
@@ -104,7 +105,7 @@ export default function Home() {
   const ShowDiv = () => {
     if(isShow){
       return (
-          <Parallax pages={2}>
+          <Parallax pages={3}>
 
           <ParallaxLayer
             offset={0}
@@ -134,8 +135,14 @@ export default function Home() {
 
           <ParallaxLayer 
             offset={1} 
-            speed={2}>
+            speed={1}>
             <RepInfo repInfo={repInfo}></RepInfo>
+          </ParallaxLayer>
+
+          <ParallaxLayer
+            offset={2} 
+            speed={1.5}>
+            <Commit dateInfo={dateInfo}></Commit>
           </ParallaxLayer>
 
         </Parallax>

@@ -21,7 +21,6 @@ export default function RepInfo(props){
     }
 
     useEffect(() => {
-        console.log(repInfo)
         //设置公开仓库数量
         setRepQuantity();
         //设置最多stars的仓库

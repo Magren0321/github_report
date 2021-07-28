@@ -1,7 +1,7 @@
 import './welcome.css';
 import { useParams } from 'react-router-dom';
-import githubLogo from '../../../../assets/img/github_logo.png';
-import animation from '../../../../animation/index';
+import githubLogo from '../../assets/img/github_logo.png';
+import animation from '../../animation/index';
 import { animated } from 'react-spring';
 export default function Welcome(props){
     
