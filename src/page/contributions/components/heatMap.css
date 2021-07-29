@@ -1,0 +1,27 @@
+.svg-content{
+    width: 70%;
+}
+.svg-content >span{
+    float: left;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 1024px){
+    .svg-content{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .svg-content >span{
+        margin-bottom: 0px;
+        width: 90vw;
+    }
+    .mobile-heatMap{
+        width: 25vh;
+    }
+    .react-calendar-heatmap-month-labels{
+        display: none!important;
+    }
+}

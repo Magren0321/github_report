@@ -41,8 +41,6 @@
     left: 500px;
     right: 5px;
     bottom: 0;
-    overflow: scroll;
-    font-size: 1.3rem;
 }
 .contributions-rep{
     margin-top: 3rem;
@@ -55,7 +53,7 @@
     .rep-list-content{
         font-size: 1rem;
         height: auto;
-        margin-top: 4rem;
+        max-height: 50vh;
     }
     .rep-list{
         margin-top:5px;
@@ -65,9 +63,9 @@
     }
     .list-item{
         width: 80vw;
-        padding: 0;
     }
     .rep-statistics{
-        display: none;
+        position: relative!important;
+        left: 0px;
     }
 }

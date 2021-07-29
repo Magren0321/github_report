@@ -10,17 +10,16 @@ export default function RepInfo(props){
 
     const {repInfo} = props;
 
-    //设置公开仓库数量
-    const setRepQuantity = () =>{
-        if(repInfo.length < 1000){
-            setQuantity(repInfo.length);
-        }else{
-            let replength = Math.floor(repInfo.length/1000) + 'k+';
-            setQuantity(replength);
-        }
-    }
-
     useEffect(() => {
+        //设置公开仓库数量
+        const setRepQuantity = () =>{
+            if(repInfo.length < 1000){
+                setQuantity(repInfo.length);
+            }else{
+                let replength = Math.floor(repInfo.length/1000) + 'k+';
+                setQuantity(replength);
+            }
+        }
         //设置公开仓库数量
         setRepQuantity();
         //设置最多stars的仓库

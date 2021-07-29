@@ -3,8 +3,7 @@
     background: url(../../assets/star-bg.svg);
     background-color: rgb(90, 90, 90);
     background-repeat: no-repeat;
-    scrollbar-width: none; /* firefox */
-    -ms-overflow-style: none; /* IE 10+ */
+    
 }
 .progress{
     width: 85%;
@@ -19,7 +18,4 @@
     width: 20%;
     max-width: 200px;
     right: 20%;
-}
-::-webkit-scrollbar {
-    display: none; /* Chrome Safari */
 }

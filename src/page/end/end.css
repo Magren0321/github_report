@@ -1,0 +1,15 @@
+.content-end{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.end{
+    width: 98%;
+    text-align: center;
+}
+@media (min-width: 1024px){
+    .end{
+        transform: translate(0%,-70%);
+    }
+}

@@ -1,0 +1,36 @@
+.content-commit{
+    height: 100vh;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+.content-commit-head{
+    width: 100%;
+    font-size: 1.3rem;
+    padding: 10px;
+    flex: 1;
+}
+.commit-statistics{
+    flex: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.content-most-commit{
+    flex: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+.most-commit{
+    width: 650px;
+}
+@media (max-width: 1000px){
+    .content-commit-head{
+        flex: 1;
+        font-size: 1rem;
+        padding: 5px;
+        margin-bottom: 20px;
+    }
+}

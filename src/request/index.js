@@ -45,7 +45,7 @@ const showStatus = (status) => {
 const service = axios.create({
   baseURL:'http://localhost:4000',
   withCredentials: false,
-  timeout: 30000, //超时时间
+  timeout: 50000, //超时时间
   headers: {
     get: {
       'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
