@@ -59,7 +59,6 @@ export default function HeatMap(props) {
                 });
             }
         });
-        console.log(monValues)
         setMonthValues(monValues)
         return () => {
             

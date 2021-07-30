@@ -46,7 +46,7 @@ export default function Login() {
   return (
     <div className="contentLogin">
       <animated.div  className="nes-container with-title login" style={gradient}>
-        <h3 className='title h3title'>Github Summary</h3>
+        <h3 className='title h3title'>Github Report</h3>
         <i className="nes-octocat animate"></i>
         <input type="text" id="name_field" className="nes-input" placeholder="Username" value={ name } onChange={ handleChange }/>
         <button type='button' className={btn_class} onClick={btnClick} >{btn_name}</button>

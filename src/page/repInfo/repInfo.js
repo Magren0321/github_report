@@ -37,10 +37,6 @@ export default function RepInfo(props){
         let i = 0;
         //假如仓库列表高度大于容器高度，则触发滚动，每0.1s滚动10px
         if(repContent.current.clientHeight < repUl.current.clientHeight){
-            
-            console.log(repUl.current.clientHeight)
-            console.log(repContent.current.clientHeight)
-
             interval = setInterval(()=>{
                 if(repUl.current.style.marginTop.replace(/[^\d]/g,' ') > repUl.current.clientHeight + repContent.current.clientHeight/3){
                     i = -50;
