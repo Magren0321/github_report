@@ -63,7 +63,7 @@ export default function HeatMap(props) {
         return () => {
             
         }
-    }, [])
+    }, [data])
 
     const IsMobile = ()=>{
         return (

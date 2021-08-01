@@ -37,7 +37,7 @@ export default function Contributions(props) {
         return () => {
 
         }
-    }, [])
+    }, [dateInfo])
 
     return (
         <div className="content-commit">

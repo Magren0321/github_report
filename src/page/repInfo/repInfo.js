@@ -49,7 +49,7 @@ export default function RepInfo(props){
             //页面卸载时清除Interval
             clearInterval(interval)
         }
-    }, [])
+    }, [repInfo])
 
     const ShowRepInfo = () =>{
         if(repInfo.length!==0){
