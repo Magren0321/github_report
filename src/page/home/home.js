@@ -2,14 +2,9 @@ import "./home.css";
 import { useParams, useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../../request/request";
-import Welcome from "../welcome/welcome";
-import RepInfo from "../repInfo/repInfo";
-import End from "../end/end";
-import Contributions from "../contributions/contributions";
-import { Parallax, ParallaxLayer } from "@react-spring/parallax";
-import satellite4 from "../../assets/img/satellite4.svg";
-import cloud from "../../assets/img/cloud.svg";
-import earth from "../../assets/img/earth.svg";
+import Content from './content/content';
+
+
 
 export default function Home() {
   const params = useParams();
@@ -20,6 +15,7 @@ export default function Home() {
   const [repInfo, setRepInfo] = useState([]); //项目信息
   const [avatar, setAvatar] = useState(""); //头像
   const [isShow, setShow] = useState(false); //进度条结束，展示页面
+  
 
   useEffect(() => {
     let interval;
@@ -93,128 +89,9 @@ export default function Home() {
   //当数据请求到后隐藏进度条，显示内容
   const ShowDiv = () => {
     if (isShow) {
-      return (
-        <Parallax pages={4}>
-          <ParallaxLayer offset={0} speed={3}>
-            <Welcome avatar={avatar}></Welcome>
-          </ParallaxLayer>
-
-          <ParallaxLayer offset={1.28} speed={-0.3}>
-            <img src={satellite4} className="satellite4" alt="satellite" />
-          </ParallaxLayer>
-
-          <ParallaxLayer offset={1} speed={0.8} style={{ opacity: 0.1 }}>
-            <img
-              src={cloud}
-              style={{ display: "block", width: "20%", marginLeft: "55%" }}
-              alt="cloud"
-            />
-            <img
-              src={cloud}
-              style={{ display: "block", width: "10%", marginLeft: "15%" }}
-              alt="cloud"
-            />
-          </ParallaxLayer>
-
-          <ParallaxLayer offset={1.75} speed={0.5} style={{ opacity: 0.1 }}>
-            <img
-              src={cloud}
-              style={{ display: "block", width: "20%", marginLeft: "70%" }}
-              alt="cloud"
-            />
-            <img
-              src={cloud}
-              style={{ display: "block", width: "20%", marginLeft: "40%" }}
-              alt="cloud"
-            />
-          </ParallaxLayer>
-
-          <ParallaxLayer offset={1} speed={0.2} style={{ opacity: 0.2 }}>
-            <img
-              src={cloud}
-              style={{ display: "block", width: "10%", marginLeft: "10%" }}
-              alt="cloud"
-            />
-            <img
-              src={cloud}
-              style={{ display: "block", width: "20%", marginLeft: "75%" }}
-              alt="cloud"
-            />
-          </ParallaxLayer>
-
-          <ParallaxLayer offset={1} speed={1}>
-            <RepInfo repInfo={repInfo}></RepInfo>
-          </ParallaxLayer>
-
-          <ParallaxLayer offset={2} speed={0.2} style={{ opacity: 0.2 }}>
-            <img
-              src={cloud}
-              style={{ display: "block", width: "10%", marginLeft: "20%" }}
-              alt="cloud"
-            />
-            <img
-              src={cloud}
-              style={{ display: "block", width: "20%", marginLeft: "85%" }}
-              alt="cloud"
-            />
-          </ParallaxLayer>
-
-          <ParallaxLayer offset={2.2} speed={0.2} style={{ opacity: 0.2 }}>
-            <img
-              src={cloud}
-              style={{ display: "block", width: "20%", marginLeft: "5%" }}
-              alt="cloud"
-            />
-            <img
-              src={cloud}
-              style={{ display: "block", width: "10%", marginLeft: "65%" }}
-              alt="cloud"
-            />
-          </ParallaxLayer>
-
-          <ParallaxLayer offset={2} speed={1.5}>
-            <Contributions dateInfo={dateInfo}></Contributions>
-          </ParallaxLayer>
-
-          <ParallaxLayer offset={3} speed={0.2} style={{ opacity: 0.2 }}>
-            <img
-              src={cloud}
-              style={{ display: "block", width: "20%", marginLeft: "10%" }}
-              alt="cloud"
-            />
-            <img
-              src={cloud}
-              style={{ display: "block", width: "10%", marginLeft: "55%" }}
-              alt="cloud"
-            />
-          </ParallaxLayer>
-
-          <ParallaxLayer offset={2.8} speed={0.2} style={{ opacity: 0.2 }}>
-            <img
-              src={cloud}
-              style={{ display: "block", width: "15%", marginLeft: "15%" }}
-              alt="cloud"
-            />
-          </ParallaxLayer>
-
-          <ParallaxLayer
-            offset={3.5}
-            speed={0.2}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              pointerEvents: "none",
-            }}
-          >
-            <img src={earth} style={{ width: "60%" }} alt="earth" />
-          </ParallaxLayer>
-
-          <ParallaxLayer offset={3} speed={1.5}>
-            <End />
-          </ParallaxLayer>
-        </Parallax>
-      );
+     return(
+       <Content dateInfo={dateInfo} repInfo={repInfo} avatar={avatar}/>
+     )
     } else {
       return (
         <div className="progress">

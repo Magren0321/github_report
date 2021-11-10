@@ -1,5 +1,8 @@
 import './repInfo.css';
 import { useEffect , useState ,useRef } from 'react';
+import animation from '../../animation/index';
+import { animated } from 'react-spring';
+
 
 export default function RepInfo(props){
     const [repQuantity,setQuantity] = useState('');
@@ -9,6 +12,9 @@ export default function RepInfo(props){
     const repContent = useRef(null);
 
     const {repInfo} = props;
+
+    const translationGithub = animation.Translation({x:-500},{x:0},{duration:500});
+    const translationTalk = animation.Translation({x:700},{x:0},{duration:500});
 
     useEffect(() => {
         //设置公开仓库数量
@@ -57,10 +63,10 @@ export default function RepInfo(props){
                 <div className="content-repInfo">
                     {/* 头部 */}
                     <div className="repInfo-head">
-                        <i className="nes-octocat animate rep-octocat"></i>
-                        <div className="nes-balloon from-left rep-balloon ">
+                        <animated.i className="nes-octocat animate rep-octocat"  style={translationGithub}></animated.i>
+                        <animated.div className="nes-balloon from-left rep-balloon" style={translationTalk}>
                             <p>Up to now, you have {repQuantity} public repositories !</p>
-                        </div>
+                        </animated.div>
                     </div>
                     {/* 仓库列表 */}
                     <div className="rep-list-content" ref={repContent}>

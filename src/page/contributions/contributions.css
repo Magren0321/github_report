@@ -8,10 +8,13 @@
     width: 100%;
     font-size: 1.3rem;
     padding: 10px;
-    flex: 1;
+    flex: 3;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
 }
 .commit-statistics{
-    flex: 10;
+    flex: 7;
     display: flex;
     justify-content: center;
     align-items: center;

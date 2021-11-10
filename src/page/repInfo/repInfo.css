@@ -1,6 +1,7 @@
 .content-repInfo{
     position: relative;
     height: 100vh;
+    
 }
 .repInfo-head{
     display: flex;
